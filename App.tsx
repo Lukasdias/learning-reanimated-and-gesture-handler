@@ -1,17 +1,13 @@
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
-import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withSpring,
-} from "react-native-reanimated";
 
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
+
+import { FifthClass } from "./src/fifth-class";
 import { FirstClass } from "./src/first-class";
+import { ForthClass } from "./src/forth-class";
 import { SecondClass } from "./src/second-class";
 import { ThirdClass } from "./src/third-class";
 
@@ -22,9 +18,10 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
         <Drawer.Navigator
-          initialRouteName="First"
+          initialRouteName="Forth"
           screenOptions={{
             sceneContainerStyle: styles.container,
+            unmountOnBlur: true,
           }}
         >
           <Drawer.Screen
@@ -46,6 +43,20 @@ export default function App() {
             component={ThirdClass}
             options={{
               headerTitle: "Carrousel",
+            }}
+          />
+          <Drawer.Screen
+            name="Forth"
+            component={ForthClass}
+            options={{
+              headerTitle: "Interpolate Colors",
+            }}
+          />
+          <Drawer.Screen
+            name="Fifth"
+            component={FifthClass}
+            options={{
+              headerTitle: "Pinch Gesture",
             }}
           />
         </Drawer.Navigator>
