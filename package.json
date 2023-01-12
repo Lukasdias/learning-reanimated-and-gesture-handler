@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "android-build": "eas build --profile preview --platform android"
   },
   "dependencies": {
     "@react-navigation/drawer": "^6.5.7",
