@@ -7,6 +7,8 @@ import Animated, {
   withRepeat,
   withSpring,
 } from "react-native-reanimated";
+import { Header } from "./components/header";
+import { random } from "./utils";
 
 const SIZE = 100;
 
@@ -16,36 +18,25 @@ const handleRotation = (progress: Animated.SharedValue<number>) => {
 };
 
 export const FirstClass = () => {
-  const progress = useSharedValue(1);
-  const scale = useSharedValue(2);
-  const [x, y] = [useSharedValue(0), useSharedValue(0)];
+  const progress = useSharedValue(0.1);
 
   const rStyle = useAnimatedStyle(
     () => ({
-      borderRadius: (SIZE * progress.value) / 4,
-      transform: [
-        { translateX: x.value },
-        { translateY: y.value },
-        { scale: scale.value },
-        {
-          rotate: handleRotation(progress),
-        },
-      ],
+      opacity: progress.value,
+      transform: [{ rotate: handleRotation(progress) }],
+      width: SIZE * progress.value,
+      height: SIZE * progress.value,
+      borderRadius: (progress.value * SIZE) / 4,
+      backgroundColor: `hsl(${random(0, 320)}, ${random(0, 99)}%, 50%))`,
     }),
     []
   );
 
   useEffect(() => {
     progress.value = withRepeat(
-      withSpring(1, {
-        stiffness: 10,
-      }),
-      -1,
-      true
-    );
-    scale.value = withRepeat(
-      withSpring(1, {
-        stiffness: 10,
+      withSpring(2, {
+        damping: 10,
+        restSpeedThreshold: 0.01,
       }),
       -1,
       true
@@ -53,15 +44,23 @@ export const FirstClass = () => {
   }, []);
 
   return (
-    <Animated.View
-      style={[
-        {
-          width: SIZE,
-          height: SIZE,
-          backgroundColor: "#c2c2c2",
-        },
-        rStyle,
-      ]}
-    />
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Header>First Class - Simple Operations</Header>
+      <Animated.View
+        style={[
+          {
+            width: SIZE,
+            height: SIZE,
+          },
+          rStyle,
+        ]}
+      />
+    </View>
   );
 };
