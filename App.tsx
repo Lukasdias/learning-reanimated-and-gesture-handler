@@ -10,6 +10,7 @@ import { FirstClass } from "./src/first-class";
 import { ForthClass } from "./src/forth-class";
 import { SecondClass } from "./src/second-class";
 import { ThirdClass } from "./src/third-class";
+import { SixthClass } from "./src/sixth-class";
 
 const Drawer = createDrawerNavigator();
 
@@ -57,6 +58,13 @@ export default function App() {
             component={FifthClass}
             options={{
               headerTitle: "Pinch Gesture",
+            }}
+          />
+          <Drawer.Screen
+            name="Sixth"
+            component={SixthClass}
+            options={{
+              headerTitle: "Onboarding Carrousel",
             }}
           />
         </Drawer.Navigator>

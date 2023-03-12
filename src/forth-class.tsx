@@ -1,13 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  Animated,
-  Dimensions,
-  StyleSheet,
-  Switch,
-  Text,
-  View,
-} from "react-native";
-import {
+import { Dimensions, StyleSheet, Switch, Text, View } from "react-native";
+import Animated, {
   interpolateColor,
   useAnimatedStyle,
   useDerivedValue,
@@ -40,9 +33,12 @@ const SWITCH_TRACK_COLOR = {
 export const ForthClass: React.FC = () => {
   const [theme, setTheme] = useState<Theme>("light");
 
-  const progress = useDerivedValue(
-    () => (theme === "dark" ? withTiming(1) : withTiming(0)),
-    [theme]
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  }, [theme]);
+
+  const progress = useDerivedValue(() =>
+    theme === "dark" ? withTiming(1) : withTiming(0)
   );
 
   const rStyle = useAnimatedStyle(() => {
@@ -53,7 +49,7 @@ export const ForthClass: React.FC = () => {
     );
 
     return { backgroundColor };
-  }, []);
+  });
 
   const rCircleStyle = useAnimatedStyle(() => {
     const backgroundColor = interpolateColor(
@@ -63,7 +59,7 @@ export const ForthClass: React.FC = () => {
     );
 
     return { backgroundColor };
-  }, []);
+  });
 
   const rTextStyle = useAnimatedStyle(() => {
     const color = interpolateColor(
@@ -72,24 +68,22 @@ export const ForthClass: React.FC = () => {
       [Colors.light.text, Colors.dark.text]
     );
 
-    return { color };
-  }, []);
-
-  useEffect(() => {
-    return () => setTheme("light");
-  }, []);
+    return {
+      color,
+    };
+  });
 
   return (
     <Animated.View style={[styles.container, rStyle]}>
-      <Animated.Text style={[styles.text, rTextStyle]}>Theme</Animated.Text>
+      <Animated.Text style={[styles.text, rTextStyle]}>{theme}</Animated.Text>
       <Animated.View style={[styles.circle, rCircleStyle]}>
         <Switch
           value={theme === "dark"}
           onValueChange={(toggled) => {
-            setTheme(toggled ? "dark" : "light");
+            toggleTheme();
           }}
           trackColor={SWITCH_TRACK_COLOR}
-          thumbColor={"violet"}
+          thumbColor={"#F8E9B0"}
         />
       </Animated.View>
     </Animated.View>
